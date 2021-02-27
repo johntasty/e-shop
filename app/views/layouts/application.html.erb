@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Flanger</title>
+    <title>Shop</title>
     <%= csrf_meta_tags %>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <%= stylesheet_link_tag 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' %>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application' %>
+    <%= javascript_include_tag 'application' %>
   </head>
 
   <body class="<%= yield (:body_class) %>">
@@ -24,7 +24,7 @@
      <nav class="navbar is-warning" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <%= link_to root_path, class:"navbar-item" do %>
-          <h1 class="title is-5">Flanger</h1>
+          <h1 class="title is-5">Shop</h1>
         <% end  %>
       <div class="navbar-burger burger" data-target="navbar">
         <span></span>
@@ -38,20 +38,21 @@
           <div class="navbar-item">
             <div class="field is-grouped">
 
-            <%# if total_cart_items %>
-              <%#= link_to cart_path(@cart), class:"navbar-item button is-warning" do %>
-          <!--      <span class="icon is-small">
+              <% if total_cart_items %>
+                <%= link_to cart_path(@cart), class:"navbar-item button is-warning" do %>
+                <span class="icon is-small">
                   <i class="fa fa-shopping-cart"></i>
                 </span>
                 <span>Cart
-                  <%#= cart_count_over_one %>
-                  </span> -->
-              <%# end %>
-            <%# end %>
+                  <%= cart_count_over_one %>
+                  </span>
+                <% end %>
+              <% end %>
 
-            <% if user_signed_in? %>
-              <%= link_to 'Sell', '#', class: "navbar-item button is-dark" %>
-
+            <% if  current_user && current_user.admin? %>
+              <%= link_to 'Sell', new_product_path, class: "navbar-item button is-dark" %>
+            <% end %>
+              <% if user_signed_in? %>
               <div class="navbar-item has-dropdown is-hoverable">
                 <%= link_to 'Account', edit_user_registration_path, class: "navbar-link" %>
                 <div class="navbar-dropdown is-right">
